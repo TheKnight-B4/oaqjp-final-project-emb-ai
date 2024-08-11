@@ -1,0 +1,35 @@
+import json
+import requests
+
+def emotion_detector(text_to_analyse):
+    """Run emotion detection using the Emotion Predict function of the Watson NLP Library.
+    
+    Args:
+        text_to_analyze (str): The text to be analyzed.
+    
+    Returns:
+        dict: A dictionary containing the emotion scores and the dominant emotion.
+    """
+    url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
+    headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
+    myobj = { "raw_document": { "text": text_to_analyse } }
+    response = requests.post(url, json=myobj, headers=headers)
+    formatted_response = json.loads(response.text)
+    
+    # Extract emotion scores
+    emotions = formatted_response['emotionPredictions'][0]['emotion']
+    
+    # Find dominant emotion
+    dominant_emotion = max(emotions, key=emotions.get)
+    
+    # Construct output dictionary
+    output = {
+        'anger': round(emotions['anger']),
+        'disgust': round(emotions['disgust']),
+        'fear': round(emotions['fear']),
+        'joy': round(emotions['joy']),
+        'sadness': round(emotions['sadness']),
+        'dominant_emotion': dominant_emotion
+    }
+    
+    return output
