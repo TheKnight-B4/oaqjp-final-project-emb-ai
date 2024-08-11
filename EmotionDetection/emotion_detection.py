@@ -24,11 +24,11 @@ def emotion_detector(text_to_analyse):
     
     # Construct output dictionary
     output = {
-        'anger': round(emotions['anger']),
-        'disgust': round(emotions['disgust']),
-        'fear': round(emotions['fear']),
-        'joy': round(emotions['joy']),
-        'sadness': round(emotions['sadness']),
+        'anger': emotions['anger'],
+        'disgust': emotions['disgust'],
+        'fear': emotions['fear'],
+        'joy': emotions['joy'],
+        'sadness': emotions['sadness'],
         'dominant_emotion': dominant_emotion
     }
     
